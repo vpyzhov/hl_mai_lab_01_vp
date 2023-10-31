@@ -108,7 +108,7 @@ paths:
         required: true
         schema:
           type: string
-      - name: title
+      - name: role
         description: Форма обращение к пользователя 
         in: query
         required: true
@@ -122,12 +122,6 @@ paths:
           type: string
       - name: password
         description: пароль пользователя
-        in: query
-        required: true
-        schema:
-          type: string
-      - name: role
-        description: роль пользователя
         in: query
         required: true
         schema:
@@ -168,7 +162,7 @@ components:
         - last_name
         - email
         - title
-        - login
+        - role
         - password
       properties:
         id:
