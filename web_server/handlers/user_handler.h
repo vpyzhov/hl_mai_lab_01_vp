@@ -194,7 +194,7 @@ public:
                 Poco::JSON::Stringifier::stringify(root, ostr);
                 return;
             }
-            else if (hasSubstr(request.getURI(), "/search"))
+            else if (hasSubstr(request.getURI(), "/user_search"))
             {
 
                 std::string fn = form.get("first_name");
