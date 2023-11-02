@@ -223,7 +223,7 @@ public:
                     user.login() = form.get("login");
                     user.password() = form.get("password");
 
-                    bool check_result = true;
+                    bool check_result = true; 
                     std::string message;
                     std::string reason;
 
