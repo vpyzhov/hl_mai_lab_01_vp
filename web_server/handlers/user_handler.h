@@ -179,7 +179,7 @@ public:
                         ostr << "{ \"id\" : \"" << *id << "\"}" << std::endl;
                         return;
                     }
-                }
+                } 
 
                 response.setStatus(Poco::Net::HTTPResponse::HTTPStatus::HTTP_UNAUTHORIZED);
                 response.setChunkedTransferEncoding(true);
