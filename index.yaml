@@ -1,13 +1,169 @@
 openapi: '3.0.0'
 info:
   version: '1.0.0'
-  title: 'Arch Lab Example API'
+  title: 'Arch Lab API: Store'
   description: API для первого домашнего задания по курсу Архитектура программных систем
 servers:
   - url: http://localhost:8080
     description: Example server
 paths:
-  /search:
+  /good:
+    get:
+      summary: 
+      parameters:
+      - name: name
+        description: Имя
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The goods for the provided masks
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/goods'
+        404:
+          description: No good found for the provided mask
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: Добавление нового товара в каталог
+      parameters:
+      - name: creator_id
+        description: ID создателя
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: name
+        description: Название товара
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: description
+        description: Описание товара
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: price
+        description: Цена товара 
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: active
+        description: состояние товара
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Идентификатор, созданного товара
+          content:
+            application/json:
+              schema:
+                type: integer
+        404:
+          description: Ошибка добавления пользователя
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Неожиданная ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    /cart:
+    get:
+      summary: 
+      parameters:
+      - name: user_id
+        description: ID пользователя
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The cart for the provided masks
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/goods'
+        404:
+          description: No good found for the provided mask
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: Добавление нового товара в корзину
+      parameters:
+      - name: user_id
+        description: ID пользователя
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: good_id
+        description: ID товара
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: qty
+        description: Количество товара
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: cost
+        description: Цена товара 
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Идентификатор, добавленного товара
+          content:
+            application/json:
+              schema:
+                type: integer
+        404:
+          description: Ошибка добавления пользователя
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Неожиданная ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /user_search:
     get:
       summary: Поиск пользователей по маске имени и фамилии
       parameters:
@@ -193,3 +349,4 @@ components:
         scheme: basic
 security:
   - basicAuth: []
+  
