@@ -32,7 +32,7 @@ namespace database
                         << "`description` VARCHAR(256) NOT NULL,"
                         << "`price` VARCHAR(256) NOT NULL,"
                         << "`active` VARCHAR(256) NULL,"
-                        << "PRIMARY KEY (`id`);",
+                        << "PRIMARY KEY (`id`));",
                 now;
         }
 
