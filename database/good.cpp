@@ -80,7 +80,7 @@ namespace database
         return good;
     }
 
-    std::optional<Good> Good::read_by_id(long int)
+    std::optional<Good> Good::read_by_id(long id)
     {
         try
         {
