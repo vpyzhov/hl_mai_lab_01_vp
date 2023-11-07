@@ -59,6 +59,8 @@ public:
             hasSubstr(request.getURI(),"/user_search") ||
             hasSubstr(request.getURI(),"/auth")) 
             return new UserHandler(_format);
+        if (hasSubstr(request.getURI(),"/good"))
+            return new GoodHandler(_format);
         return 0;
     }
 
