@@ -1,5 +1,5 @@
-#ifndef USEHANDLER_H
-#define USEHANDLER_H
+#ifndef GOODHANDLER_H
+#define GOODHANDLER_H
 
 #include "Poco/Net/HTTPServer.h"
 #include "Poco/Net/HTTPRequestHandler.h"
@@ -43,23 +43,10 @@ using Poco::Util::OptionCallback;
 using Poco::Util::OptionSet;
 using Poco::Util::ServerApplication;
 
-#include "../../database/good.h"
+#include "../../database/user.h"
 #include "../../helper.h"
 
-static bool hasSubstr(const std::string &str, const std::string &substr)
-{
-    if (str.size() < substr.size())
-        return false;
-    for (size_t i = 0; i <= str.size() - substr.size(); ++i)
-    {
-        bool ok{true};
-        for (size_t j = 0; ok && (j < substr.size()); ++j)
-            ok = (str[i + j] == substr[j]);
-        if (ok)
-            return true;
-    }
-    return false;
-}
+
 
 class GoodHandler : public HTTPRequestHandler
 {
@@ -70,7 +57,11 @@ public:
 GoodHandler(const std::string &format) : _format(format)
     {
     }
+    Poco::JSON::Object::Ptr src(Poco::JSON::Object::Ptr src)
+    {
 
+        return src;
+    }
 
 void handleRequest(HTTPServerRequest &request,
                        HTTPServerResponse &response)

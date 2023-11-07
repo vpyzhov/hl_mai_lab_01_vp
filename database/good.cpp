@@ -1,4 +1,4 @@
-#include "good.h"
+#include "user.h"
 #include "database.h"
 #include "../config/config.h"
 
@@ -80,7 +80,7 @@ namespace database
         return good;
     }
 
-    std::optional<Good> Good::read_by_id(long id)
+    std::optional<Good> Good::read_by_id(long int)
     {
         try
         {
@@ -88,7 +88,7 @@ namespace database
             Poco::Data::Statement select(session);
             long id;
             Good a;
-            select << "SELECT id, creator_id, name, description, price,active FROM Good where id=?",
+            select << "SELECT id, creator_id, name, description, price, active FROM Good where id=?",
                 into(a._id),
                 into(a._creator_id),
                 into(a._name),
