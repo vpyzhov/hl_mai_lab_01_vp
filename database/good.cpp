@@ -32,7 +32,7 @@ namespace database
                         << "`description` VARCHAR(256) NOT NULL,"
                         << "`price` VARCHAR(256) NOT NULL,"
                         << "`active` VARCHAR(256) NULL,"
-                        << "PRIMARY KEY (`id`),KEY `fn` (`first_name`),KEY `ln` (`last_name`));",
+                        << "PRIMARY KEY (`id`);",
                 now;
         }
 
@@ -86,7 +86,6 @@ namespace database
         {
             Poco::Data::Session session = database::Database::get().create_session();
             Poco::Data::Statement select(session);
-            long id;
             Good a;
             select << "SELECT id, creator_id, name, description, price, active FROM Good where id=?",
                 into(a._id),
