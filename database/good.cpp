@@ -154,12 +154,47 @@ namespace database
             throw;
         }
     }
+    void Good::save_to_mysql()
+    {
 
+        try
+        {
+            Poco::Data::Session session = database::Database::get().create_session();
+            Poco::Data::Statement insert(session);
 
+            insert << "INSERT INTO Good (id, creator_id, name, description, price, active) VALUES(?, ?, ?, ?, ?, ?)",
+                use(_id),
+                use(_creator_id),
+                use(_name),
+                use(_description),
+                use(_price),
+                use(_active);
 
+            insert.execute();
 
+            Poco::Data::Statement select(session);
+            select << "SELECT LAST_INSERT_ID()",
+                into(_id),
+                range(0, 1); //  iterate over result set one row at a time
 
+            if (!select.done())
+            {
+                select.execute();
+            }
+            std::cout << "inserted:" << _id << std::endl;
+        }
+        catch (Poco::Data::MySQL::ConnectionException &e)
+        {
+            std::cout << "connection:" << e.what() << std::endl;
+            throw;
+        }
+        catch (Poco::Data::MySQL::StatementException &e)
+        {
 
+            std::cout << "statement:" << e.what() << std::endl;
+            throw;
+        }
+    }
 
     long &Good::id()
     {

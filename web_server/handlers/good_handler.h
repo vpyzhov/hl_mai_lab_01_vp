@@ -43,7 +43,6 @@ using Poco::Util::OptionCallback;
 using Poco::Util::OptionSet;
 using Poco::Util::ServerApplication;
 
-#include "../../database/user.h"
 #include "../../database/good.h"
 #include "../../helper.h"
 
@@ -52,7 +51,16 @@ using Poco::Util::ServerApplication;
 class GoodHandler : public HTTPRequestHandler
 {
 private:
+    bool check_name(const std::string &name, std::string &reason)
+    {
+        if (name.length() < 1)
+        {
+            reason = "Name must be at least 1 sign";
+            return false;
+        }
 
+        return true;
+    };
 
 public:
 GoodHandler(const std::string &format) : _format(format)
@@ -116,23 +124,51 @@ void handleRequest(HTTPServerRequest &request,
                 return;
             }
             
+            else if (request.getMethod() == Poco::Net::HTTPRequest::HTTP_POST)
+            {
+                if (form.has("id") && form.has("creator_id") && form.has("name") && form.has("description") && form.has("price") && form.has("active"))
+                {
+                    database::Good good;
+                    good.creator_id() = form.get("creator_id");
+                    good.name() = form.get("name");
+                    good.description() = form.get("description");
+                    good.price() = form.get("price");
+                    good.active() = form.get("active");
 
-                response.setStatus(Poco::Net::HTTPResponse::HTTPStatus::HTTP_UNAUTHORIZED);
-                response.setChunkedTransferEncoding(true);
-                response.setContentType("application/json");
-                Poco::JSON::Object::Ptr root = new Poco::JSON::Object();
-                root->set("type", "/errors/not_found");
-                root->set("role", "Internal exception");
-                root->set("status", "401");
-                root->set("detail", "request not found");
-                root->set("instance", "/good");
-                std::ostream &ostr = response.send();
-                Poco::JSON::Stringifier::stringify(root, ostr);
-                return;
+                    bool check_result = true; 
+                    std::string message;
+                    std::string reason;
+
+                    if (!check_name(good.get_name(), reason))
+                    {
+                        check_result = false;
+                        message += reason;
+                        message += "<br>";
+                    }
+
+
+
+                    if (check_result)
+                    {
+                        good.save_to_mysql();
+                        response.setStatus(Poco::Net::HTTPResponse::HTTP_OK);
+                        response.setChunkedTransferEncoding(true);
+                        response.setContentType("application/json");
+                        std::ostream &ostr = response.send();
+                        ostr << good.get_id();
+                        return;
+                    }
+                    else
+                    {
+                        response.setStatus(Poco::Net::HTTPResponse::HTTP_NOT_FOUND);
+                        std::ostream &ostr = response.send();
+                        ostr << message;
+                        response.send();
+                        return;
+                    }
+                }
             }
-            
-            
-        
+        }
         catch (...)
         {
         }
@@ -151,6 +187,6 @@ void handleRequest(HTTPServerRequest &request,
     }
 
 private:
-std::string _format;
+    std::string _format;
 };
 #endif
