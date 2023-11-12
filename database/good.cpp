@@ -162,8 +162,7 @@ namespace database
             Poco::Data::Session session = database::Database::get().create_session();
             Poco::Data::Statement insert(session);
 
-            insert << "INSERT INTO Good (id, creator_id, name, description, price, active) VALUES(?, ?, ?, ?, ?, ?)",
-                use(_id),
+            insert << "INSERT INTO Good (creator_id, name, description, price, active) VALUES(?, ?, ?, ?, ?)",
                 use(_creator_id),
                 use(_name),
                 use(_description),

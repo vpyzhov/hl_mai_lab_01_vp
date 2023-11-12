@@ -115,6 +115,7 @@ void handleRequest(HTTPServerRequest &request,
                 auto results = database::Good::read_by_name(name);
                 Poco::JSON::Array arr;
                 for (auto s : results)
+                    arr.add(s.toJSON());
                 response.setStatus(Poco::Net::HTTPResponse::HTTP_OK);
                 response.setChunkedTransferEncoding(true);
                 response.setContentType("application/json");
@@ -126,7 +127,7 @@ void handleRequest(HTTPServerRequest &request,
             
             else if (request.getMethod() == Poco::Net::HTTPRequest::HTTP_POST)
             {
-                if (form.has("id") && form.has("creator_id") && form.has("name") && form.has("description") && form.has("price") && form.has("active"))
+                if (form.has("creator_id") && form.has("name") && form.has("description") && form.has("price") && form.has("active"))
                 {
                     database::Good good;
                     good.creator_id() = form.get("creator_id");
