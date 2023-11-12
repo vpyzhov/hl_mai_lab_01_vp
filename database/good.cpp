@@ -1,4 +1,4 @@
-#include "user.h"
+#include "good.h"
 #include "database.h"
 #include "../config/config.h"
 
@@ -114,6 +114,51 @@ namespace database
         }
         return {};
     }
+
+    std::vector<Good> Good::read_by_name(std::string name)
+    {
+        try
+        {
+            Poco::Data::Session session = database::Database::get().create_session();
+            Poco::Data::Statement select(session);
+            std::vector<Good> result;
+            Good a;
+            name += "%";
+            select << "SELECT id, creator_id, name, description, price, active FROM Good where name=?",
+                into(a._id),
+                into(a._creator_id),
+                into(a._name),
+                into(a._description),
+                into(a._price),
+                into(a._active),
+                use(name),
+                range(0, 1); //  iterate over result set one row at a time
+
+            while (!select.done())
+            {
+                if (select.execute())
+                    result.push_back(a);
+            }
+            return result;
+        }
+
+        catch (Poco::Data::MySQL::ConnectionException &e)
+        {
+            std::cout << "connection:" << e.what() << std::endl;
+        }
+        catch (Poco::Data::MySQL::StatementException &e)
+        {
+
+            std::cout << "statement:" << e.what() << std::endl;
+            
+        }
+        return {};
+    }
+
+
+
+
+
 
 
     long &Good::id()

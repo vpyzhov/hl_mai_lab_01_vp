@@ -37,9 +37,8 @@ namespace database
 
             static void init();
             static std::optional<Good> read_by_id(long id);
-
+            static std::vector<Good> read_by_name(std::string name);
             void save_to_mysql();
-
             Poco::JSON::Object::Ptr toJSON() const;
 
     };

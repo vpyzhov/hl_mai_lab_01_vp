@@ -44,6 +44,7 @@ using Poco::Util::OptionSet;
 using Poco::Util::ServerApplication;
 
 #include "../../database/user.h"
+#include "../../database/good.h"
 #include "../../helper.h"
 
 
@@ -98,6 +99,21 @@ void handleRequest(HTTPServerRequest &request,
                     Poco::JSON::Stringifier::stringify(root, ostr);
                     return;
                 }
+            }
+
+            else if (form.has("name") && (request.getMethod() == Poco::Net::HTTPRequest::HTTP_GET))
+            {
+                std::string name = form.get("name");
+                auto results = database::Good::read_by_name(name);
+                Poco::JSON::Array arr;
+                for (auto s : results)
+                response.setStatus(Poco::Net::HTTPResponse::HTTP_OK);
+                response.setChunkedTransferEncoding(true);
+                response.setContentType("application/json");
+                std::ostream &ostr = response.send();
+                Poco::JSON::Stringifier::stringify(arr, ostr);
+
+                return;
             }
             
 
