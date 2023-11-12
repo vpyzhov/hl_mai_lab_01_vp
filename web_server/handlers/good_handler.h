@@ -121,11 +121,11 @@ void handleRequest(HTTPServerRequest &request,
                 response.setChunkedTransferEncoding(true);
                 response.setContentType("application/json");
                 Poco::JSON::Object::Ptr root = new Poco::JSON::Object();
-                root->set("type", "/errors/unauthorized");
+                root->set("type", "/errors/not_found");
                 root->set("role", "Internal exception");
                 root->set("status", "401");
-                root->set("detail", "not authorized");
-                root->set("instance", "/auth");
+                root->set("detail", "request not found");
+                root->set("instance", "/good");
                 std::ostream &ostr = response.send();
                 Poco::JSON::Stringifier::stringify(root, ostr);
                 return;
@@ -144,7 +144,7 @@ void handleRequest(HTTPServerRequest &request,
         root->set("type", "/errors/not_found");
         root->set("role", "Internal exception");
         root->set("status", Poco::Net::HTTPResponse::HTTPStatus::HTTP_NOT_FOUND);
-        root->set("detail", "request ot found");
+        root->set("detail", "request not found");
         root->set("instance", "/good");
         std::ostream &ostr = response.send();
         Poco::JSON::Stringifier::stringify(root, ostr);
