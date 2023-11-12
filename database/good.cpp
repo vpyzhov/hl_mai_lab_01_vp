@@ -120,11 +120,11 @@ namespace database
         try
         {
             Poco::Data::Session session = database::Database::get().create_session();
-            Poco::Data::Statement select(session);
+            Statement select(session);
             std::vector<Good> result;
             Good a;
             name += "%";
-            select << "SELECT id, creator_id, name, description, price, active FROM Good where name=?",
+            select << "SELECT id, creator_id, name, description, price, active FROM Good where name LIKE ?",
                 into(a._id),
                 into(a._creator_id),
                 into(a._name),
