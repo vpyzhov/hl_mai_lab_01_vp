@@ -145,14 +145,14 @@ namespace database
         catch (Poco::Data::MySQL::ConnectionException &e)
         {
             std::cout << "connection:" << e.what() << std::endl;
+            throw;
         }
         catch (Poco::Data::MySQL::StatementException &e)
         {
 
             std::cout << "statement:" << e.what() << std::endl;
-            
+            throw;
         }
-        return {};
     }
 
 
