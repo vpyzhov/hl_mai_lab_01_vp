@@ -84,7 +84,7 @@ namespace database
             Poco::Data::Session session = database::Database::get().create_session();
             Poco::Data::Statement select(session);
             Cart a;
-            select << "SELECT id, user_id, good_id, qty, cost FROM Good where id=?",
+            select << "SELECT id, user_id, good_id, qty, cost FROM Cart where id=?",
                 into(a._id),
                 into(a._user_id),
                 into(a._good_id),
