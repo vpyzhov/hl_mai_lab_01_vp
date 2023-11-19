@@ -2,8 +2,9 @@ cmake_minimum_required(VERSION 3.2)
 
 project(hl_server C CXX)
 
-SET (EXAMPLE_BINARY "hl_mai_lab_01")
-SET (OTHER_SERVICE "other_service")
+SET (SERVICE_USER "user_hl_mai_lab_01")
+SET (SERVICE_GOOD "good_hl_mai_lab_01")
+SET (SERVICE_CART "cart_hl_mai_lab_01")
 
 find_package(OpenSSL)
 find_package(Threads)
@@ -23,20 +24,42 @@ link_directories("/usr/local/lib")
 SET(CMAKE_CXX_STANDARD 17)
 SET(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_executable(${EXAMPLE_BINARY} main.cpp 
+add_executable(${SERVICE_USER} main_user.cpp 
                                  config/config.cpp 
                                  database/database.cpp
                                  database/user.cpp
+                                 )
+
+add_executable(${SERVICE_GOOD} main_good.cpp 
+                                 config/config.cpp 
+                                 database/database.cpp
                                  database/good.cpp
                                  )
 
+add_executable(${SERVICE_CART} main_cart.cpp 
+                                 config/config.cpp 
+                                 database/database.cpp
+                                 database/cart.cpp
+                                 )
 
-target_include_directories(${EXAMPLE_BINARY} PRIVATE "${CMAKE_BINARY_DIR}")
-target_compile_options(${EXAMPLE_BINARY} PRIVATE -Wall -Wextra -pedantic -Werror )
-set_target_properties(${EXAMPLE_BINARY} PROPERTIES LINKER_LANGUAGE CXX)
-set_target_properties(${EXAMPLE_BINARY} PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
 
-target_link_libraries(${EXAMPLE_BINARY} PRIVATE 
+target_include_directories(${SERVICE_USER} PRIVATE "${CMAKE_BINARY_DIR}")
+target_include_directories(${SERVICE_GOOD} PRIVATE "${CMAKE_BINARY_DIR}")
+target_include_directories(${SERVICE_CART} PRIVATE "${CMAKE_BINARY_DIR}")
+
+target_compile_options(${SERVICE_USER} PRIVATE -Wall -Wextra -pedantic -Werror )
+target_compile_options(${SERVICE_GOOD} PRIVATE -Wall -Wextra -pedantic -Werror )
+target_compile_options(${SERVICE_CART} PRIVATE -Wall -Wextra -pedantic -Werror )
+
+set_target_properties(${SERVICE_USER} PROPERTIES LINKER_LANGUAGE CXX)
+set_target_properties(${SERVICE_GOOD} PROPERTIES LINKER_LANGUAGE CXX)
+set_target_properties(${SERVICE_CART} PROPERTIES LINKER_LANGUAGE CXX)
+
+set_target_properties(${SERVICE_USER} PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
+set_target_properties(${SERVICE_GOOD} PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
+set_target_properties(${SERVICE_CART} PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
+
+target_link_libraries(${SERVICE_USER} PRIVATE 
                              ${CMAKE_THREAD_LIBS_INIT} 
                              ${Poco_LIBRARIES}
                              "PocoData"
@@ -44,24 +67,18 @@ target_link_libraries(${EXAMPLE_BINARY} PRIVATE
                              "mysqlclient"
                              ZLIB::ZLIB)
 
-
-
-
-add_executable(${OTHER_SERVICE} other_main.cpp)
-target_include_directories(${OTHER_SERVICE} PRIVATE "${CMAKE_BINARY_DIR}")
-target_compile_options(${OTHER_SERVICE} PRIVATE -Wall -Wextra -pedantic -Werror )
-set_target_properties(${OTHER_SERVICE} PROPERTIES LINKER_LANGUAGE CXX)
-set_target_properties(${OTHER_SERVICE} PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
-
-target_link_libraries(${OTHER_SERVICE} PRIVATE 
+target_link_libraries(${SERVICE_GOOD} PRIVATE 
                              ${CMAKE_THREAD_LIBS_INIT} 
                              ${Poco_LIBRARIES}
                              "PocoData"
                              "PocoDataMySQL"
                              "mysqlclient"
                              ZLIB::ZLIB)
-
-
-
-
-
+                             
+target_link_libraries(${SERVICE_CART} PRIVATE 
+                             ${CMAKE_THREAD_LIBS_INIT} 
+                             ${Poco_LIBRARIES}
+                             "PocoData"
+                             "PocoDataMySQL"
+                             "mysqlclient"
+                             ZLIB::ZLIB)

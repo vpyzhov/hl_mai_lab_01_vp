@@ -28,11 +28,11 @@ services:
     volumes:
       - db-node-ex01-data:/var/lib/mysql
 
-  my_service:
+  service_user:
     build:
-      context: my_service
+      context: service_user
       dockerfile: Dockerfile
-    container_name: my_service
+    container_name: service_user
     environment:
       - DB_HOST=mai-db-node-ex01
       - DB_PORT=3306
@@ -46,17 +46,45 @@ services:
     depends_on:
       mai-db-node-ex01:
         condition: service_healthy
-  # other_server:
-  #   build:
-  #     context: other_server
-  #     dockerfile: Dockerfile
-  #   container_name: other_server
-  #   environment:
-  #     - SERVICE_HOST=my_service
-  #   ports:
-  #     - 8081:8081
-  #   networks:
-  #     - arch-network
+
+  service_good:
+    build:
+      context: service_good
+      dockerfile: Dockerfile
+    container_name: service_good
+    environment:
+      - DB_HOST=mai-db-node-ex01
+      - DB_PORT=3306
+      - DB_LOGIN=stud
+      - DB_PASSWORD=stud
+      - DB_DATABASE=archdb
+    ports:
+      - 8081:8081
+    networks:
+      - arch-network
+    depends_on:
+      mai-db-node-ex01:
+        condition: service_healthy
+
+  service_cart:
+    build:
+      context: service_cart
+      dockerfile: Dockerfile
+    container_name: service_cart
+    environment:
+      - DB_HOST=mai-db-node-ex01
+      - DB_PORT=3306
+      - DB_LOGIN=stud
+      - DB_PASSWORD=stud
+      - DB_DATABASE=archdb
+    ports:
+      - 8082:8082
+    networks:
+      - arch-network
+    depends_on:
+      mai-db-node-ex01:
+        condition: service_healthy
+
 
 volumes:
   db-node-ex01-data:
