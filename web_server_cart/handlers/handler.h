@@ -91,11 +91,11 @@ void handleRequest(HTTPServerRequest &request,
         HTMLForm form(request, request.stream());
         try
         {
-            if (form.has("id") && (request.getMethod() == Poco::Net::HTTPRequest::HTTP_GET))
+            if (form.has("user_id") && (request.getMethod() == Poco::Net::HTTPRequest::HTTP_GET))
             {
-                long id = atol(form.get("id").c_str());
+                std::string user_id = form.get("user_id");
 
-                std::optional<database::Cart> result = database::Cart::read_by_id(id);
+                std::optional<database::Cart> result = database::Cart::read_by_id(user_id);
                 if (result)
                 {
                     response.setStatus(Poco::Net::HTTPResponse::HTTP_OK);

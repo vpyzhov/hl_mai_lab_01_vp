@@ -77,20 +77,20 @@ namespace database
         return cart;
     }
 
-    std::optional<Cart> Cart::read_by_id(long id)
+    std::optional<Cart> Cart::read_by_id(std::string user_id)
     {
         try
         {
             Poco::Data::Session session = database::Database::get().create_session();
             Poco::Data::Statement select(session);
             Cart a;
-            select << "SELECT id, user_id, good_id, qty, cost FROM Cart where id=?",
+            select << "SELECT id, user_id, good_id, qty, cost FROM Cart where user_id=?",
                 into(a._id),
                 into(a._user_id),
                 into(a._good_id),
                 into(a._qty),
                 into(a._cost),
-                use(id),
+                use(a._user_id),
                 range(0, 1); //  iterate over result set one row at a time
 
             select.execute();
