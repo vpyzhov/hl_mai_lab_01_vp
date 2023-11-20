@@ -1,20 +1,23 @@
-# Пример первого домашнего задания по курсу Архитектура программных систем
 
-Обращаю внимание что в сервисах нужно реализовтаь схему простой аутентификации (в данном случае) other_service - выполняет роль стороннего сервиса, а сервис hl_mai_lab_01 - сервиса который работает с данными пользователей и осуществляет аутентификацию
 ```plantuml
 @startuml
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
 
+AddElementTag("microService", $shape=EightSidedShape(), $bgColor="CornflowerBlue", $fontColor="white", $legendText="microservice")
+AddElementTag("storage", $shape=RoundedBoxShape(), $bgColor="lightSkyBlue", $fontColor="white")
 
+Person(admin, "Администратор")
 Person(user, "Пользователь")
 
-Container(user_service, "Сервис работы с пользователем", "C++")    
-Container(other_service, "Сервис делающий что-то", "C++") 
+System_Ext(web_site, "Клиентский веб-сайт", "HTML, CSS, JavaScript, React", "Веб-интерфейс")
 
-Rel(user, user_service, "Управлять пользователям")
-Rel(user, other_service, "Сделать что-то полезное")
-Rel(other_service,user_service, "/auth - проверка логина/пароля")
-
+System_Boundary(conference_site, "Магазин") {
+   Container(service_user, "Сервис авторизации", "C++", "Сервис управления пользователями", $tags = "microService")    
+   Container(service_good, "Сервис товаров", "C++", "Сервис управдления товарами", $tags = "microService") 
+   Container(service_cart, "Сервис корзины", "C++", "Сервис управления корзиной пользователя", $tags = "microService")  
+   ContainerDb(db, "База данных", "MySQL", "Хранение данных о товарах, корзинах и пользователях", $tags = "storage")
+   
+}
 @enduml
 ```
 # hl_mai_lab_01_vp
