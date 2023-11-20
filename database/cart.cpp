@@ -119,7 +119,7 @@ namespace database
             Poco::Data::Session session = database::Database::get().create_session();
             Poco::Data::Statement insert(session);
 
-            insert << "INSERT INTO Cart (id, user_id, good_id, qty, cost) VALUES(?, ?, ?, ?)",
+            insert << "INSERT INTO Cart (user_id, good_id, qty, cost) VALUES(?, ?, ?, ?)",
                 use(_user_id),
                 use(_good_id),
                 use(_qty),
