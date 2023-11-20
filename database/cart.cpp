@@ -69,9 +69,9 @@ namespace database
         Poco::JSON::Object::Ptr object = result.extract<Poco::JSON::Object::Ptr>();
 
         cart.id() = object->getValue<long>("id");
-        cart.user_id() = object->getValue<long>("user_id");
-        cart.good_id() = object->getValue<long>("good_id");
-        cart.qty() = object->getValue<long>("qty");
+        cart.user_id() = object->getValue<std::string>("user_id");
+        cart.good_id() = object->getValue<std::string>("good_id");
+        cart.qty() = object->getValue<std::string>("qty");
         cart.cost() = object->getValue<std::string>("cost");
 
         return cart;
@@ -90,7 +90,7 @@ namespace database
                 into(a._good_id),
                 into(a._qty),
                 into(a._cost),
-                use(a._user_id),
+                use(user_id),
                 range(0, 1); //  iterate over result set one row at a time
 
             select.execute();
@@ -123,8 +123,7 @@ namespace database
                 use(_user_id),
                 use(_good_id),
                 use(_qty),
-                use(_cost),
-
+                use(_cost);
             insert.execute();
 
             Poco::Data::Statement select(session);

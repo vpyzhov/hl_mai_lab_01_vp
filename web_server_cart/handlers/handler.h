@@ -93,8 +93,7 @@ void handleRequest(HTTPServerRequest &request,
         {
             if (form.has("user_id") && (request.getMethod() == Poco::Net::HTTPRequest::HTTP_GET))
             {
-                std::string user_id = form.get("user_id");
-
+                std::string user_id = form.get("user_id");    
                 std::optional<database::Cart> result = database::Cart::read_by_id(user_id);
                 if (result)
                 {
