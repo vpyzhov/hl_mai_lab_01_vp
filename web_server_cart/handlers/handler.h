@@ -93,32 +93,18 @@ void handleRequest(HTTPServerRequest &request,
         {
             if (form.has("user_id") && (request.getMethod() == Poco::Net::HTTPRequest::HTTP_GET))
             {
-                std::string user_id = form.get("user_id");    
-                std::optional<database::Cart> result = database::Cart::read_by_id(user_id);
-                if (result)
-                {
-                    response.setStatus(Poco::Net::HTTPResponse::HTTP_OK);
-                    response.setChunkedTransferEncoding(true);
-                    response.setContentType("application/json");
-                    std::ostream &ostr = response.send();
-                    Poco::JSON::Stringifier::stringify(src(result->toJSON()), ostr);
-                    return;
-                }
-                else
-                {
-                    response.setStatus(Poco::Net::HTTPResponse::HTTPStatus::HTTP_NOT_FOUND);
-                    response.setChunkedTransferEncoding(true);
-                    response.setContentType("application/json");
-                    Poco::JSON::Object::Ptr root = new Poco::JSON::Object();
-                    root->set("type", "/errors/not_found");
-                    root->set("role", "Internal exception");
-                    root->set("status", "404");
-                    root->set("detail", "cart not found");
-                    root->set("instance", "/cart");
-                    std::ostream &ostr = response.send();
-                    Poco::JSON::Stringifier::stringify(root, ostr);
-                    return;
-                }
+                std::string user_id = form.get("user_id");
+                auto results = database::Cart::read_by_id(user_id);
+                Poco::JSON::Array arr;
+                for (auto s : results)
+                    arr.add(s.toJSON());
+                response.setStatus(Poco::Net::HTTPResponse::HTTP_OK);
+                response.setChunkedTransferEncoding(true);
+                response.setContentType("application/json");
+                std::ostream &ostr = response.send();
+                Poco::JSON::Stringifier::stringify(arr, ostr);
+
+                return;
             }
 
           

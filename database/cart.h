@@ -33,7 +33,7 @@ namespace database
             std::string &cost();
 
             static void init();
-            static std::optional<Cart> read_by_id(std::string user_id);
+            static std::vector<Cart> read_by_id(std::string user_id);
             void save_to_mysql();
             Poco::JSON::Object::Ptr toJSON() const;
 

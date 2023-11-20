@@ -77,12 +77,13 @@ namespace database
         return cart;
     }
 
-    std::optional<Cart> Cart::read_by_id(std::string user_id)
+    std::vector<Cart> Cart::read_by_id(std::string user_id)
     {
         try
         {
             Poco::Data::Session session = database::Database::get().create_session();
-            Poco::Data::Statement select(session);
+            Statement select(session);
+            std::vector<Cart> result;
             Cart a;
             select << "SELECT id, user_id, good_id, qty, cost FROM Cart where user_id=?",
                 into(a._id),
@@ -93,9 +94,12 @@ namespace database
                 use(user_id),
                 range(0, 1); //  iterate over result set one row at a time
 
-            select.execute();
-            Poco::Data::RecordSet rs(select);
-            if (rs.moveFirst()) return a;
+            while (!select.done())
+            {
+                if (select.execute())
+                    result.push_back(a);
+            }
+            return result;
         }
 
         catch (Poco::Data::MySQL::ConnectionException &e)
