@@ -1,0 +1,78 @@
+{
+  "id": 2,
+  "data": {
+    "image": "/data/upload/1/eeb3eb20-3da0b873-fdde-4faf-9a85-021248c7dacf.jpg"
+  },
+  "annotations": [
+    {
+      "id": 15,
+      "created_username": " pyzhov.vasily@gmail.com, 1",
+      "created_ago": "0 minutes",
+      "completed_by": {
+        "id": 1,
+        "first_name": "",
+        "last_name": "",
+        "avatar": null,
+        "email": "pyzhov.vasily@gmail.com",
+        "initials": "py"
+      },
+      "result": [
+        {
+          "original_width": 2560,
+          "original_height": 2560,
+          "image_rotation": 0,
+          "value": {
+            "x": 27.447216890595012,
+            "y": 21.497120921305182,
+            "width": 13.819577735124756,
+            "height": 12.667946257197698,
+            "rotation": 0,
+            "rectanglelabels": [
+              "Airplane"
+            ]
+          },
+          "id": "H2oZuNHtuW",
+          "from_name": "label",
+          "to_name": "image",
+          "type": "rectanglelabels",
+          "origin": "manual"
+        },
+        {
+          "original_width": 2560,
+          "original_height": 2560,
+          "image_rotation": 0,
+          "value": {
+            "x": 38.771593090211134,
+            "y": 49.1362763915547,
+            "width": 18.426103646833013,
+            "height": 18.809980806142036,
+            "rotation": 0,
+            "rectanglelabels": [
+              "Airplane"
+            ]
+          },
+          "id": "AkIV3BhL0S",
+          "from_name": "label",
+          "to_name": "image",
+          "type": "rectanglelabels",
+          "origin": "manual"
+        }
+      ],
+      "was_cancelled": false,
+      "ground_truth": false,
+      "created_at": "2023-12-11T20:03:04.656334Z",
+      "updated_at": "2023-12-11T20:03:04.656414Z",
+      "draft_created_at": null,
+      "lead_time": 5.062,
+      "import_id": null,
+      "last_action": null,
+      "task": 2,
+      "project": 1,
+      "updated_by": 1,
+      "parent_prediction": null,
+      "parent_annotation": null,
+      "last_created_by": null
+    }
+  ],
+  "predictions": []
+}

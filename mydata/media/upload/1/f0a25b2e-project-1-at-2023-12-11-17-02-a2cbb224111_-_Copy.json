@@ -1,0 +1,40 @@
+[
+  {	
+	"data": {
+    "image": "/data/upload/1/eeb3eb20-3da0b873-fdde-4faf-9a85-021248c7dacf.jpg"
+	},
+    "annotations": [{
+		"model_version": "one",
+		"score": 0.5,
+		"result":[
+			{"original_width": 2560, "original_height": 2560,
+			"image_rotation": 0,
+			"value":{"points": [
+				  [
+					38.857142857142854,
+					14.285714285714285
+				  ],
+				  [
+					37,
+					7.7142857142857135
+				  ],
+				  [
+					43.142857142857146,
+					7.285714285714286
+				  ],
+				  [
+					45.857142857142854,
+					13.857142857142858
+				  ]
+				]
+				"polygonlabels": ["Airplane"]
+			},
+		"from_name": "label",
+          "to_name": "image",
+          "type": "polygonlabels"
+		}
+		
+		
+		]
+	}]
+  }]

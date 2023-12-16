@@ -1,0 +1,1 @@
+[{"data": {"image": "/data/upload/1/4f833867-273e-4d73-8bc3-cb2d9ceb54ef.jpg"}, "annotations": [{"result": [{"value": {"points": [[135, 522], [245, 522], [245, 600], [135, 600]], "closed": true, "polygonlabels": ["Airplane"]}, "original_width": 2560, "original_height": 2560, "image_rotation": 0, "from_name": "label", "to_name": "image", "type": "polygonlabels"}]}]}]

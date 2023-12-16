@@ -1,0 +1,26 @@
+[
+  {
+	"data": {
+    "image": "\/data\/upload\/1\/b5927925-03f84930-e2be-4c19-9afc-0dc26d02538e.jpg"
+	},
+    "predictions": [{
+		"model_version": "one",
+		"score": 0.5,
+		"result":[
+			{
+			"id": "1",
+			"type": "rectanglelabels",
+			"from_name": "label", "to_name": "image",
+			"original_width": 2560, "original_height": 2560,
+			"image_rotation": 0,
+			"value":{
+				"rotation": 0,
+				"x": 42.034548944337814,
+				"y": 51.0556621880998,
+				"width": 17.082533589251433,
+				"height": 12.092130518234171,
+				"rectanglelabels": ["Airplane"]
+			}
+		}]
+	}]
+  }]
