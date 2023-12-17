@@ -23,18 +23,23 @@ namespace database
     {
         try
         {
+            for (auto &hint : database::Database::get_all_hints())
+            {
 
-            Poco::Data::Session session = database::Database::get().create_session();
-            Statement create_stmt(session);
-            create_stmt << "CREATE TABLE IF NOT EXISTS `User` (`id` INT NOT NULL AUTO_INCREMENT,"
-                        << "`first_name` VARCHAR(256) NOT NULL,"
-                        << "`last_name` VARCHAR(256) NOT NULL,"
-                        << "`login` VARCHAR(256) NOT NULL,"
-                        << "`password` VARCHAR(256) NOT NULL,"
-                        << "`email` VARCHAR(256) NULL,"
-                        << "`role` VARCHAR(1024) NULL,"
-                        << "PRIMARY KEY (`id`),KEY `fn` (`first_name`),KEY `ln` (`last_name`));",
-                now;
+                Poco::Data::Session session = database::Database::get().create_session();
+                Statement create_stmt(session);
+                create_stmt << "CREATE TABLE IF NOT EXISTS `User` (`id` INT NOT NULL AUTO_INCREMENT,"
+                            << "`first_name` VARCHAR(256) NOT NULL,"
+                            << "`last_name` VARCHAR(256) NOT NULL,"
+                            << "`login` VARCHAR(256) NOT NULL,"
+                            << "`password` VARCHAR(256) NOT NULL,"
+                            << "`email` VARCHAR(256) NULL,"
+                            << "`role` VARCHAR(1024) NULL,"
+                            << "PRIMARY KEY (`id`),KEY `fn` (`first_name`),KEY `ln` (`last_name`));"
+                            << hint,
+                            now;
+            std::cout << create_stmt.toString() << std::endl;
+            }
         }
 
         catch (Poco::Data::MySQL::ConnectionException &e)
