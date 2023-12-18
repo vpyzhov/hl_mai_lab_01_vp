@@ -243,9 +243,8 @@ namespace database
             Poco::Data::Session session = database::Database::get().create_session();
             Poco::Data::Statement insert(session);
             long in_id = 2;
-            long sharding = 1;
             std::string select_str = "INSERT INTO User (id, first_name,last_name,email,role,login,password) VALUES(?, ?, ?, ?, ?, ?, ?)";
-            std::string sharding_hint = " -- sharding:1";
+            std::string sharding_hint = " -- sharding:2";
             select_str += sharding_hint;
             insert << select_str,
             //insert << "INSERT INTO User (id, first_name,last_name,email,role,login,password) VALUES(?, ?, ?, ?, ?, ?, ?) -- sharding:1",
