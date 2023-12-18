@@ -259,7 +259,7 @@ namespace database
             insert.execute();
 
             Poco::Data::Statement select(session);
-            select << "SELECT id FROM User PRDER BY id DESC LIMIT 1",
+            select << "SELECT id FROM User ORDER BY id DESC LIMIT 1",
                 into(_id),
                 range(0, 1); //  iterate over result set one row at a time
 
