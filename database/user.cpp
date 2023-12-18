@@ -259,7 +259,8 @@ namespace database
             insert.execute();
 
             Poco::Data::Statement select(session);
-            select << "SELECT id FROM User ORDER BY id DESC LIMIT 1",
+            std::string select_id = "SELECT id FROM User ORDER BY id DESC LIMIT 1" + sharding_hint;
+            select << select_id,
                 into(_id),
                 range(0, 1); //  iterate over result set one row at a time
 
