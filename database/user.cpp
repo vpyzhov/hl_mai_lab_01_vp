@@ -247,7 +247,7 @@ namespace database
             std::string select_str = "INSERT INTO User (id, first_name,last_name,email,role,login,password) VALUES(?, ?, ?, ?, ?, ?, ?)";
             std::string sharding_hint = " -- sharding:" + sharding;
             select_str += sharding_hint;
-            insert << "INSERT INTO User (id, first_name,last_name,email,role,login,password) VALUES(?, ?, ?, ?, ?, ?, ?)",
+            insert << select_str,
                 use(id),
                 use(_first_name),
                 use(_last_name),
