@@ -6,5 +6,5 @@ RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get -y install tzdata git sudo
 RUN git clone -b poco-1.11.7-release https://github.com/pocoproject/poco.git && cd poco && mkdir cmake-build && cd cmake-build && cmake .. && make && sudo make install && cd .. && cd ..
 RUN git clone https://github.com/vpyzhov/hl_mai_lab_01_vp.git
 RUN sudo ldconfig
-RUN cd hl_mai_lab_01_vp && mkdir build && cd build && cmake .. && make
+RUN cd hl_mai_lab_01_vp && rmdir build && mkdir build && cd build && cmake .. && make
 ENTRYPOINT [ "hl_mai_lab_01_vp/build/user_hl_mai_lab_01" ]
