@@ -28,7 +28,7 @@ namespace database
 
                 Poco::Data::Session session = database::Database::get().create_session();
                 Statement create_stmt(session);
-                create_stmt << "CREATE TABLE IF NOT EXISTS `User` (`id` INT NOT NULL AUTO_INCREMENT,"
+                create_stmt << "CREATE TABLE IF NOT EXISTS `User` (`id` INT NOT NULL,"
                             << "`first_name` VARCHAR(256) NOT NULL,"
                             << "`last_name` VARCHAR(256) NOT NULL,"
                             << "`login` VARCHAR(256) NOT NULL,"
@@ -242,8 +242,11 @@ namespace database
         {
             Poco::Data::Session session = database::Database::get().create_session();
             Poco::Data::Statement insert(session);
-
-            insert << "INSERT INTO User (first_name,last_name,email,role,login,password) VALUES(?, ?, ?, ?, ?, ?)",
+            long id = 1;
+            long sharding = 1;
+            //std::string select = "INSERT INTO User (id, first_name,last_name,email,role,login,password) VALUES(?, ?, ?, ?, ?, ?, ?)" + sharding;
+            insert << "INSERT INTO User (id, first_name,last_name,email,role,login,password) VALUES(?, ?, ?, ?, ?, ?, ?) -- sharding:" + sharding,
+                use(id),
                 use(_first_name),
                 use(_last_name),
                 use(_email),
