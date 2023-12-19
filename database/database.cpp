@@ -39,10 +39,13 @@ namespace database{
         return result;
     }
 
+
     Database& Database::get(){
         static Database _instance;
         return _instance;
     }
+
+
 
     Poco::Data::Session Database::create_session(){
         return Poco::Data::Session(Poco::Data::SessionFactory::instance().create(Poco::Data::MySQL::Connector::KEY, _connection_string));
