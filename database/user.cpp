@@ -258,12 +258,13 @@ namespace database
                 use(last_name),
                 range(0, 1); //  iterate over result set one row at a time
 
-                while (!select.done())
-                {
-                    if (select.execute())
+                //while (!select.done())
+                //{
+                    //if (select.execute())
                         result.push_back(a);
-                }
+                //}
             }
+            
             return result;
         }
 
