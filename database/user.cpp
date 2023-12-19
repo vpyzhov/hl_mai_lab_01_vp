@@ -230,22 +230,10 @@ namespace database
             std::string select_us;
             for (auto &hint : database::Database::get_all_hints())
             {
-                if (hint != "-- sharding:0") {select_us += " UNION ";}
-                select_us += "SELECT id, first_name, last_name, email, role, login, password FROM User where first_name LIKE ? and last_name LIKE ?";
-                select_us += hint;
-                select << select_us,
-                into(a._id),
-                into(a._first_name),
-                into(a._last_name),
-                into(a._email),
-                into(a._role),
-                into(a._login),
-                into(a._password),
-                use(first_name),
-                use(last_name);
-                range(0, 1); //  iterate over result set one row at a time
-            }
-            //select << "SELECT id, first_name, last_name, email, role, login, password FROM User where first_name LIKE ? and last_name LIKE ?",
+                // if (hint != "-- sharding:0") {select_us += " UNION ";}
+                // select_us += "SELECT id, first_name, last_name, email, role, login, password FROM User where first_name LIKE ? and last_name LIKE ?";
+                // select_us += hint;
+                // select << select_us,
                 // into(a._id),
                 // into(a._first_name),
                 // into(a._last_name),
@@ -254,13 +242,27 @@ namespace database
                 // into(a._login),
                 // into(a._password),
                 // use(first_name),
-                // use(last_name),
+                // use(last_name);
                 // range(0, 1); //  iterate over result set one row at a time
+            select_us += "SELECT id, first_name, last_name, email, role, login, password FROM User where first_name LIKE ? and last_name LIKE ?";
+            select_us += hint;
+            select << select_us,
+                into(a._id),
+                into(a._first_name),
+                into(a._last_name),
+                into(a._email),
+                into(a._role),
+                into(a._login),
+                into(a._password),
+                use(first_name),
+                use(last_name),
+                range(0, 1); //  iterate over result set one row at a time
 
-            while (!select.done())
-            {
-                if (select.execute())
-                    result.push_back(a);
+                while (!select.done())
+                {
+                    if (select.execute())
+                        result.push_back(a);
+                }
             }
             return result;
         }
