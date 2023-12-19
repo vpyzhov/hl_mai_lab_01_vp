@@ -278,8 +278,17 @@ namespace database
                 use(_password);
 
             insert.execute();
+            
+            Poco::Data::Statement select(session);
+            select << "SELECT LAST_INSERT_ID()",
+                into(_id),
+                range(0, 1); //  iterate over result set one row at a time
 
-            std::cout << "inserted:" << std::to_string(in_id) << std::endl;
+            if (!select.done())
+            {
+                select.execute();
+            }
+            std::cout << "inserted:" << _id << std::endl;
         }
         catch (Poco::Data::MySQL::ConnectionException &e)
         {
