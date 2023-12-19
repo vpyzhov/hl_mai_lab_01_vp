@@ -112,41 +112,41 @@ services:
     depends_on:
       - proxysql
 
-  service_good:
-    build:
-      context: service_good
-      dockerfile: Dockerfile
-    container_name: service_good
-    environment:
-      - DB_HOST=proxysql
-      - DB_PORT=6033
-      - DB_LOGIN=stud
-      - DB_PASSWORD=stud
-      - DB_DATABASE=archdb
-    ports:
-      - 8081:8081
-    networks:
-      - arch-network
-    depends_on:
-      - proxysql
+  # service_good:
+  #   build:
+  #     context: service_good
+  #     dockerfile: Dockerfile
+  #   container_name: service_good
+  #   environment:
+  #     - DB_HOST=proxysql
+  #     - DB_PORT=6033
+  #     - DB_LOGIN=stud
+  #     - DB_PASSWORD=stud
+  #     - DB_DATABASE=archdb
+  #   ports:
+  #     - 8081:8081
+  #   networks:
+  #     - arch-network
+  #   depends_on:
+  #     - proxysql
 
-  service_cart:
-    build:
-      context: service_cart
-      dockerfile: Dockerfile
-    container_name: service_cart
-    environment:
-      - DB_HOST=proxysql
-      - DB_PORT=6033
-      - DB_LOGIN=stud
-      - DB_PASSWORD=stud
-      - DB_DATABASE=archdb
-    ports:
-      - 8082:8082
-    networks:
-      - arch-network
-    depends_on:
-      - proxysql
+  # service_cart:
+  #   build:
+  #     context: service_cart
+  #     dockerfile: Dockerfile
+  #   container_name: service_cart
+  #   environment:
+  #     - DB_HOST=proxysql
+  #     - DB_PORT=6033
+  #     - DB_LOGIN=stud
+  #     - DB_PASSWORD=stud
+  #     - DB_DATABASE=archdb
+  #   ports:
+  #     - 8082:8082
+  #   networks:
+  #     - arch-network
+  #   depends_on:
+  #     - proxysql
 
 
 volumes:
