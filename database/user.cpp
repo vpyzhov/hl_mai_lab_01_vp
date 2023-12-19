@@ -230,7 +230,6 @@ namespace database
             std::string select_us;
             for (auto &hint : database::Database::get_all_hints())
             {
-                select_us = "";
                 if (hint != "-- sharding:0") {select_us += " UNION ";}
                 select_us += "SELECT id, first_name, last_name, email, role, login, password FROM User where first_name LIKE ? and last_name LIKE ?";
                 select_us += hint;
