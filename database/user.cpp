@@ -40,6 +40,12 @@ namespace database
                             now;
             std::cout << create_stmt.toString() << std::endl;
             }
+            
+            Poco::Data::Session session = database::Database::get().create_session();
+            Statement create_stmt(session);
+            create_stmt << "CREATE SEQUENCE ids START WITH 1 INCREMENT BY 1;",
+            now;
+            std::cout << create_stmt.toString() << std::endl;
         }
 
         catch (Poco::Data::MySQL::ConnectionException &e)
@@ -95,18 +101,6 @@ namespace database
             Poco::Data::Session session = database::Database::get().create_session();
             Poco::Data::Statement select(session);
             long id;
-            // std::string select_pa;
-            // for (auto &hint : database::Database::get_all_hints())
-            // {   select_pa = "";
-            //     if (hint != " -- sharding:0") {select_pa += " UNION ";}
-            //     select_pa += "SELECT id FROM User where login=? and password=?";
-            //     select_pa += hint;
-            //     select << select_pa,
-            //         into(id),
-            //         use(login),
-            //         use(password),
-            //         range(0, 1); //  iterate over result set one row at a time
-            // }
                 select << "SELECT id FROM User where login=? and password=?",
                     into(id),
                     use(login),
@@ -136,7 +130,9 @@ namespace database
             Poco::Data::Session session = database::Database::get().create_session();
             Poco::Data::Statement select(session);
             User a;
-            select << "SELECT id, first_name, last_name, email, role,login,password FROM User where id=?",
+            
+            select << "SELECT id, first_name, last_name, email, role,login,password FROM User where id=?" 
+                    << database::Database::sharding_hint(id),
                 into(a._id),
                 into(a._first_name),
                 into(a._last_name),
@@ -207,22 +203,7 @@ namespace database
     std::vector<User> User::search(std::string first_name, std::string last_name)
     {
         try
-        {
-                        // std::string select_pa;
-            // for (auto &hint : database::Database::get_all_hints())
-            // {   select_pa = "";
-            //     if (hint != " -- sharding:0") {select_pa += " UNION ";}
-            //     select_pa += "SELECT id FROM User where login=? and password=?";
-            //     select_pa += hint;
-            //     select << select_pa,
-            //         into(id),
-            //         use(login),
-            //         use(password),
-            //         range(0, 1); //  iterate over result set one row at a time
-            // }
-
-            Poco::Data::Session session = database::Database::get().create_session();
-            //Statement select(session);
+        {   Poco::Data::Session session = database::Database::get().create_session();
             std::vector<User> result;
             User a;
             first_name += "%";
@@ -230,21 +211,7 @@ namespace database
             std::string select_us;
             for (auto &hint : database::Database::get_all_hints())
             {
-                Statement select(session);
-                // if (hint != "-- sharding:0") {select_us += " UNION ";}
-                // select_us += "SELECT id, first_name, last_name, email, role, login, password FROM User where first_name LIKE ? and last_name LIKE ?";
-                // select_us += hint;
-                // select << select_us,
-                // into(a._id),
-                // into(a._first_name),
-                // into(a._last_name),
-                // into(a._email),
-                // into(a._role),
-                // into(a._login),
-                // into(a._password),
-                // use(first_name),
-                // use(last_name);
-                // range(0, 1); //  iterate over result set one row at a time
+            Statement select(session);
             select_us = "SELECT id, first_name, last_name, email, role, login, password FROM User where first_name LIKE ? and last_name LIKE ?";
             select_us += hint;
             select << select_us,
