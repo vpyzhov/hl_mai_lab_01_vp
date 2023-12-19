@@ -279,7 +279,6 @@ namespace database
 
             insert.execute();
             
-
             std::cout << "inserted:" << std::to_string(in_id);
         }
         catch (Poco::Data::MySQL::ConnectionException &e)

@@ -9,7 +9,7 @@ servers:
 paths:
   /good:
     get:
-      summary: 
+      summary: Получение списка товаров по названию
       parameters:
       - name: name
         description: Имя
@@ -88,9 +88,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-    /cart:
+  /cart:
     get:
-      summary: 
+      summary: Получение списка товаров в корзине пользователя
       parameters:
       - name: user_id
         description: ID пользователя
