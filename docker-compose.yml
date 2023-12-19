@@ -82,16 +82,16 @@ services:
       - "6033:6033"
       # Mysql Admin Port
       - "6032:6032"
-  cache:
-    image: redis:6.2-alpine
-    restart: always
-    ports:
-      - '6379:6379'
-    command: redis-server --save 20 1 --loglevel warning 
-    networks:
-      - arch-network
-    volumes: 
-      - cache:/data
+  # cache:
+  #   image: redis:6.2-alpine
+  #   restart: always
+  #   ports:
+  #     - '6479:6479'
+  #   command: redis-server --save 20 1 --loglevel warning 
+  #   networks:
+  #     - arch-network
+  #   volumes: 
+  #     - cache:/data
 
   service_user:
     build:
@@ -104,7 +104,7 @@ services:
       - DB_LOGIN=stud
       - DB_PASSWORD=stud
       - DB_DATABASE=archdb
-      - CACHE=cache:6379
+      # - CACHE=cache:6479
     ports:
       - 8080:8080
     networks:
