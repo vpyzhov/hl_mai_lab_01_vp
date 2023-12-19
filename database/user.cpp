@@ -243,7 +243,7 @@ namespace database
                 into(a._password),
                 use(first_name),
                 use(last_name);
-            //         range(0, 1); //  iterate over result set one row at a time
+                range(0, 1); //  iterate over result set one row at a time
             }
             //select << "SELECT id, first_name, last_name, email, role, login, password FROM User where first_name LIKE ? and last_name LIKE ?",
                 // into(a._id),
@@ -255,7 +255,7 @@ namespace database
                 // into(a._password),
                 // use(first_name),
                 // use(last_name),
-                range(0, 1); //  iterate over result set one row at a time
+                // range(0, 1); //  iterate over result set one row at a time
 
             while (!select.done())
             {
