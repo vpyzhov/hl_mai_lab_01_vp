@@ -1,4 +1,4 @@
-version: '2.6'
+version: '2.7'
 
 services:
 
@@ -81,16 +81,6 @@ services:
       - db-node-1
       - db-node-2
       - db-node-3
-  # cache:
-  #   image: redis:6.2-alpine
-  #   restart: always
-  #   ports:
-  #     - '6479:6479'
-  #   command: redis-server --save 20 1 --loglevel warning 
-  #   networks:
-  #     - arch-network
-  #   volumes: 
-  #     - cache:/data
 
   service_user:
     build:
@@ -103,17 +93,13 @@ services:
       - DB_LOGIN=stud
       - DB_PASSWORD=stud
       - DB_DATABASE=archdb
-      # - CACHE=cache:6479
     ports:
       - 8080:8080
     networks:
       - arch-network
     depends_on:
       - proxysql
-      # - cache
-      - db-node-1
-      - db-node-2
-      - db-node-3
+
 
   # service_good:
   #   build:
@@ -157,10 +143,7 @@ volumes:
   db-node-2-data:
   db-node-3-data:
   proxysql-data:
-  # cache:
-
 
 networks:
   arch-network:
     driver: "bridge"
-    external: false
