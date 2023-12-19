@@ -255,8 +255,8 @@ namespace database
         {
             Poco::Data::Session session = database::Database::get().create_session();
             Poco::Data::Statement insert(session);
-            //SELECT SEQUENCE ID
             Poco::Data::Statement select(session);
+            //SELECT SEQUENCE ID
             long in_id;
             select << "SELECT NEXTVAL(ids) id",
                 into(in_id),
@@ -279,7 +279,7 @@ namespace database
 
             insert.execute();
 
-            Poco::Data::Statement select(session);
+            //GET ID OF CREATED USER
             select << "SELECT id FROM User ORDER BY id DESC LIMIT 1" 
                 << database::Database::sharding_hint(in_id),
                 into(_id),
