@@ -96,18 +96,24 @@ namespace database
             Poco::Data::Statement select(session);
             long id;
             std::string select_pa;
-            for (auto &hint : database::Database::get_all_hints())
-            {   select_pa = "";
-                if (hint != " -- sharding:0") {select_pa += " UNION ";}
+            // for (auto &hint : database::Database::get_all_hints())
+            // {   select_pa = "";
+            //     if (hint != " -- sharding:0") {select_pa += " UNION ";}
+            //     select_pa += "SELECT id FROM User where login=? and password=?";
+            //     select_pa += hint;
+            //     select << select_pa,
+            //         into(id),
+            //         use(login),
+            //         use(password),
+            //         range(0, 1); //  iterate over result set one row at a time
+            // }
                 select_pa += "SELECT id FROM User where login=? and password=?";
-                select_pa += hint;
-
-            }
-            select << select_pa,
-                into(id),
-                use(login),
-                use(password),
-                range(0, 1); //  iterate over result set one row at a time
+                select_pa += " -- sharding:2";
+                select << select_pa,
+                    into(id),
+                    use(login),
+                    use(password),
+                    range(0, 1); //  iterate over result set one row at a time
 
             select.execute();
             Poco::Data::RecordSet rs(select);
