@@ -222,7 +222,7 @@ namespace database
             // }
 
             Poco::Data::Session session = database::Database::get().create_session();
-            Statement select(session);
+            //Statement select(session);
             std::vector<User> result;
             User a;
             first_name += "%";
@@ -230,6 +230,7 @@ namespace database
             std::string select_us;
             for (auto &hint : database::Database::get_all_hints())
             {
+                Statement select(session);
                 // if (hint != "-- sharding:0") {select_us += " UNION ";}
                 // select_us += "SELECT id, first_name, last_name, email, role, login, password FROM User where first_name LIKE ? and last_name LIKE ?";
                 // select_us += hint;
