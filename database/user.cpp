@@ -101,12 +101,13 @@ namespace database
                 if (hint != " -- sharding:0") {select_pa += " UNION ";}
                 select_pa += "SELECT id FROM User where login=? and password=?";
                 select_pa += hint;
-                select << select_pa,
-                    into(id),
-                    use(login),
-                    use(password),
-                    range(0, 1); //  iterate over result set one row at a time
+
             }
+            select << select_pa,
+                into(id),
+                use(login),
+                use(password),
+                range(0, 1); //  iterate over result set one row at a time
 
             select.execute();
             Poco::Data::RecordSet rs(select);
