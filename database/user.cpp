@@ -280,7 +280,7 @@ namespace database
             insert.execute();
             
 
-            select << "SELECT " << in_id, << " id"
+            select << "SELECT " << in_id << " id",
                 into(_id),
                 range(0, 1); //  iterate over result set one row at a time
 
