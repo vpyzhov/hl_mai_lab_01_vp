@@ -279,8 +279,8 @@ namespace database
 
             insert.execute();
             
-            Poco::Data::Statement select(session);
-            select << "SELECT LAST_INSERT_ID()",
+
+            select << "SELECT " << in_id, << " id"
                 into(_id),
                 range(0, 1); //  iterate over result set one row at a time
 
