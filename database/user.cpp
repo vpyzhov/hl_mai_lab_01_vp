@@ -260,7 +260,7 @@ namespace database
 
                 //while (!select.done())
                 //{
-                    //if (select.execute())
+                    if (select.execute())
                         result.push_back(a);
                 //}
             }
