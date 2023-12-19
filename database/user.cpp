@@ -280,15 +280,7 @@ namespace database
             insert.execute();
             
 
-            select << "SELECT " << in_id << " id",
-                into(_id),
-                range(0, 1); //  iterate over result set one row at a time
-
-            if (!select.done())
-            {
-                select.execute();
-            }
-            std::cout << "inserted:" << _id << std::endl;
+            std::cout << "inserted:" << std::to_string(in_id);
         }
         catch (Poco::Data::MySQL::ConnectionException &e)
         {
