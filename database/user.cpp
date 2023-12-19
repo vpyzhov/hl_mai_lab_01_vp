@@ -212,9 +212,8 @@ namespace database
             for (auto &hint : database::Database::get_all_hints())
             {
             Statement select(session);
-            select_us = "SELECT id, first_name, last_name, email, role, login, password FROM User where first_name LIKE ? and last_name LIKE ?";
-            select_us += hint;
-            select << select_us,
+            select << "SELECT id, first_name, last_name, email, role, login, password FROM User where first_name LIKE ? and last_name LIKE ?"
+                    << hint,
                 into(a._id),
                 into(a._first_name),
                 into(a._last_name),
@@ -256,11 +255,20 @@ namespace database
         {
             Poco::Data::Session session = database::Database::get().create_session();
             Poco::Data::Statement insert(session);
-            long in_id = 2;
-            std::string select_str = "INSERT INTO User (id, first_name,last_name,email,role,login,password) VALUES(?, ?, ?, ?, ?, ?, ?)";
-            std::string sharding_hint = " -- sharding:2";
-            select_str += sharding_hint;
-            insert << select_str,
+            //SELECT SEQUENCE ID
+            Poco::Data::Statement select(session);
+            long in_id;
+            select << "SELECT NEXTVAL(ids) id",
+                into(in_id),
+                range(0, 1); //  iterate over result set one row at a time
+            if (!select.done())
+            {
+                select.execute();
+            }
+
+            //MAIN INPUT
+            insert << "INSERT INTO User (id, first_name,last_name,email,role,login,password) VALUES(?, ?, ?, ?, ?, ?, ?)"
+                << database::Database::sharding_hint(in_id),
                 use(in_id),
                 use(_first_name),
                 use(_last_name),
@@ -272,8 +280,8 @@ namespace database
             insert.execute();
 
             Poco::Data::Statement select(session);
-            std::string select_id = "SELECT id FROM User ORDER BY id DESC LIMIT 1" + sharding_hint;
-            select << select_id,
+            select << "SELECT id FROM User ORDER BY id DESC LIMIT 1" 
+                << database::Database::sharding_hint(in_id),
                 into(_id),
                 range(0, 1); //  iterate over result set one row at a time
 
