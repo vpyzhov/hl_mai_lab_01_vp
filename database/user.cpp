@@ -280,16 +280,16 @@ namespace database
             insert.execute();
 
             //GET ID OF CREATED USER
-            select << "SELECT id FROM User ORDER BY id DESC LIMIT 1" 
-                << database::Database::sharding_hint(in_id),
-                into(_id),
-                range(0, 1); //  iterate over result set one row at a time
+            // select << "SELECT id FROM User ORDER BY id DESC LIMIT 1" 
+            //     << database::Database::sharding_hint(in_id),
+            //     into(_id),
+            //     range(0, 1); //  iterate over result set one row at a time
 
-            if (!select.done())
-            {
-                select.execute();
-            }
-            std::cout << "inserted:" << _id << std::endl;
+            // if (!select.done())
+            // {
+            //     select.execute();
+            // }
+            std::cout << "inserted:" << in_id << std::endl;
         }
         catch (Poco::Data::MySQL::ConnectionException &e)
         {
