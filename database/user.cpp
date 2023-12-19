@@ -95,7 +95,7 @@ namespace database
             Poco::Data::Session session = database::Database::get().create_session();
             Poco::Data::Statement select(session);
             long id;
-            std::string select_pa;
+            // std::string select_pa;
             // for (auto &hint : database::Database::get_all_hints())
             // {   select_pa = "";
             //     if (hint != " -- sharding:0") {select_pa += " UNION ";}
@@ -107,9 +107,7 @@ namespace database
             //         use(password),
             //         range(0, 1); //  iterate over result set one row at a time
             // }
-                select_pa += "SELECT id FROM User where login=? and password=?";
-                select_pa += " -- sharding:2";
-                select << select_pa,
+                select << "SELECT id FROM User where login=? and password=?",
                     into(id),
                     use(login),
                     use(password),
@@ -167,56 +165,81 @@ namespace database
         return {};
     }
 
-    std::vector<User> User::read_all()
-    {
-        try
-        {
-            Poco::Data::Session session = database::Database::get().create_session();
-            Statement select(session);
-            std::vector<User> result;
-            User a;
-            select << "SELECT id, first_name, last_name, email, role, login, password FROM User",
-                into(a._id),
-                into(a._first_name),
-                into(a._last_name),
-                into(a._email),
-                into(a._role),
-                into(a._login),
-                into(a._password),
-                range(0, 1); //  iterate over result set one row at a time
+    // std::vector<User> User::read_all()
+    // {
+    //     try
+    //     {
+    //         Poco::Data::Session session = database::Database::get().create_session();
+    //         Statement select(session);
+    //         std::vector<User> result;
+    //         User a;
+    //         select << "SELECT id, first_name, last_name, email, role, login, password FROM User",
+    //             into(a._id),
+    //             into(a._first_name),
+    //             into(a._last_name),
+    //             into(a._email),
+    //             into(a._role),
+    //             into(a._login),
+    //             into(a._password),
+    //             range(0, 1); //  iterate over result set one row at a time
 
-            while (!select.done())
-            {
-                if (select.execute())
-                    result.push_back(a);
-            }
-            return result;
-        }
+    //         while (!select.done())
+    //         {
+    //             if (select.execute())
+    //                 result.push_back(a);
+    //         }
+    //         return result;
+    //     }
 
-        catch (Poco::Data::MySQL::ConnectionException &e)
-        {
-            std::cout << "connection:" << e.what() << std::endl;
-            throw;
-        }
-        catch (Poco::Data::MySQL::StatementException &e)
-        {
+    //     catch (Poco::Data::MySQL::ConnectionException &e)
+    //     {
+    //         std::cout << "connection:" << e.what() << std::endl;
+    //         throw;
+    //     }
+    //     catch (Poco::Data::MySQL::StatementException &e)
+    //     {
 
-            std::cout << "statement:" << e.what() << std::endl;
-            throw;
-        }
-    }
+    //         std::cout << "statement:" << e.what() << std::endl;
+    //         throw;
+    //     }
+    // }
 
     std::vector<User> User::search(std::string first_name, std::string last_name)
     {
         try
         {
+                        // std::string select_pa;
+            // for (auto &hint : database::Database::get_all_hints())
+            // {   select_pa = "";
+            //     if (hint != " -- sharding:0") {select_pa += " UNION ";}
+            //     select_pa += "SELECT id FROM User where login=? and password=?";
+            //     select_pa += hint;
+            //     select << select_pa,
+            //         into(id),
+            //         use(login),
+            //         use(password),
+            //         range(0, 1); //  iterate over result set one row at a time
+            // }
+
             Poco::Data::Session session = database::Database::get().create_session();
             Statement select(session);
             std::vector<User> result;
             User a;
             first_name += "%";
             last_name += "%";
-            select << "SELECT id, first_name, last_name, email, role, login, password FROM User where first_name LIKE ? and last_name LIKE ?",
+            std::string select_us;
+            for (auto &hint : database::Database::get_all_hints())
+            {
+                select_us = "";
+                if (hint != " -- sharding:0") {select_us += " UNION ";}
+                select_us += "SELECT id, first_name, last_name, email, role, login, password FROM User where first_name LIKE ? and last_name LIKE ?";
+                select_us += hint;
+                select << select_us,
+                use(first_name),
+                use(last_name);
+            //         range(0, 1); //  iterate over result set one row at a time
+            }
+            //select << "SELECT id, first_name, last_name, email, role, login, password FROM User where first_name LIKE ? and last_name LIKE ?",
                 into(a._id),
                 into(a._first_name),
                 into(a._last_name),
@@ -224,8 +247,8 @@ namespace database
                 into(a._role),
                 into(a._login),
                 into(a._password),
-                use(first_name),
-                use(last_name),
+                // use(first_name),
+                // use(last_name),
                 range(0, 1); //  iterate over result set one row at a time
 
             while (!select.done())
@@ -261,7 +284,6 @@ namespace database
             std::string sharding_hint = " -- sharding:2";
             select_str += sharding_hint;
             insert << select_str,
-            //insert << "INSERT INTO User (id, first_name,last_name,email,role,login,password) VALUES(?, ?, ?, ?, ?, ?, ?) -- sharding:1",
                 use(in_id),
                 use(_first_name),
                 use(_last_name),
